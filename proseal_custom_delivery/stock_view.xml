@@ -1,0 +1,46 @@
+<openerp>
+	<data>
+		<record id="view_new_state_picking_out_form" model="ir.ui.view">
+            <field name="name">New State</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="priority" eval="20" />
+            <field name="arch" type="xml">
+                <field name="state" position="replace">
+                    <field name="state" nolabel="1" readonly="1" widget="statusbar" statusbar_visible="draft,confirmed,partial,assigned,done" statusbar_colors='{"auto":"blue", "confirmed":"blue"}'/>
+                </field>
+                <button name="action_assign" position="attributes">
+                	<attribute name="states">confirmed,partial</attribute>
+                </button>
+                <button name="force_assign" position="attributes">
+                	<attribute name="states">confirmed,partial</attribute>
+                </button>
+                <button name="button_cancel" position="attributes">
+                	<attribute name="states">assigned,confirmed,draft,partial</attribute>
+                </button>
+                
+            </field>
+        </record>
+        <record id="view_button_deliver_picking_out_form" model="ir.ui.view">
+            <field name="name">stock.picking.out.form</field>
+            <field name="model">stock.picking.out</field>
+            <field name="inherit_id" ref="stock.view_picking_out_form"/>
+            <field name="arch" type="xml">
+            	<button name="action_process" position="attributes">
+            		<attribute name="states">assigned,partial</attribute>
+            	</button>
+            </field>
+        </record>
+        
+<!--         <record id="view_picking_out_form" model="ir.ui.view"> -->
+<!--             <field name="name">stock.picking.out.form</field> -->
+<!--             <field name="model">stock.picking.out</field> -->
+<!--             <field name="inherit_id" ref="stock.view_picking_form"/> -->
+<!--             <field name="arch" type="xml"> -->
+<!--             	<xpath expr="/form/header//button[@name='action_assign']" position="replace"> -->
+<!--                     <button name="action_assign" states="confirmed,partial,assigned" string="Check Availability" type="object" class="oe_highlight"/> -->
+<!--                 </xpath> -->
+<!--             </field> -->
+<!--         </record> -->
+	</data>
+</openerp>

@@ -1,0 +1,33 @@
+<openerp>
+	<data>
+        <record id="act_partial" model="workflow.activity">
+            <field name="wkf_id" ref="stock.wkf_picking"/>
+            <field name="name">partial</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'partial'})</field>
+        </record>
+        
+		<record id="stock.trans_confirmed_assigned" model="workflow.transition">
+            <field name="act_from" ref="stock.act_confirmed"/>
+            <field name="act_to" ref="stock.act_assigned"/>
+            <field name="condition">type == 'out' and test_assigned() and not test_partial() or type != 'out' and test_assigned()</field>
+        </record>
+        
+        <record id="trans_confirmed_partial" model="workflow.transition">
+            <field name="act_from" ref="stock.act_confirmed"/>
+            <field name="act_to" ref="act_partial"/>
+            <field name="condition">type == 'out' and test_assigned() and test_partial()</field>
+        </record>
+        <record id="trans_partial_confirmed_back" model="workflow.transition">
+            <field name="act_from" ref="act_partial"/>
+            <field name="act_to" ref="stock.act_confirmed"/>
+            <field name="condition">type == 'out' and not test_partial()</field>
+        </record>
+        
+        <record id="trans_partial_assigned" model="workflow.transition">
+            <field name="act_from" ref="act_partial"/>
+            <field name="act_to" ref="stock.act_assigned"/>
+            <field name="condition">type == 'out' and test_assigned() and not test_partial()</field>
+        </record>
+	</data>
+</openerp>
