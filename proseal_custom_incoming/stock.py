@@ -11,7 +11,7 @@ class stock_move(osv.osv):
                 res[m.id] = False
                 return res
 
-            sp_ids = self.pool.get('product.supplierinfo').search(cr,uid,[('product_id','=',m.product_id.id),('name','=',m.picking_id.partner_id.id)])
+            sp_ids = self.pool.get('product.supplierinfo').search(cr,uid,[('product_tmpl_id','=',m.product_id.id),('name','=',m.picking_id.partner_id.id)])
             if sp_ids:
                 res[m.id] = sp_ids[0]
             else:
