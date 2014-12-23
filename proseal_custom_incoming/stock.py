@@ -11,7 +11,7 @@ class stock_move(osv.osv):
                 res[m.id] = False
                 return res
 
-            sp_ids = self.pool.get('product.supplierinfo').search(cr,uid,[('product_tmpl_id','=',m.product_id.id),('name','=',m.picking_id.partner_id.id)])
+            sp_ids = self.pool.get('product.supplierinfo').search(cr,uid,[('product_tmpl_id','=',m.product_id.product_tmpl_id.id),('name','=',m.picking_id.partner_id.id)])
             if sp_ids:
                 res[m.id] = sp_ids[0]
             else:
@@ -22,6 +22,7 @@ class stock_move(osv.osv):
         move_ids = []
         if ids:
             move_ids = self.pool.get('stock.move').search(cr,uid,[('picking_id','=',ids[0])])
+            print move_ids
         return move_ids
     
     def get_move_by_move(self,cr,uid,ids,context=None):
@@ -34,8 +35,8 @@ class stock_move(osv.osv):
                        'supplier_product_id'    : fields.function(set_supplier_product, type='many2one',
                                                   relation='product.supplierinfo', string='Product Supplier Info',
                                                   store={
-                                                         'stock.picking': (get_move_by_picking,['partner_id'],None,10),
-                                                         'stock.move': (get_move_by_move,['product_id'],None,10),
+                                                         'stock.picking': (get_move_by_picking,['partner_id'],10),
+                                                         'stock.move': (get_move_by_move,['product_id'],10),
 #                                                          'product.supplierinfo': (get_move_by_supplierinfo,['product_name','product_code'],None,10)
                                                          }
                                                   )
